@@ -5,23 +5,24 @@ source "http://rubygems.org"
 gemspec
 
 # CMS has dependency on prerelease and Bundler chokes on it
-gem "rails", ">= 5.2"
+gem "rails", "~> 8.0"
+gem "comfortable_mexican_sofa", git: "https://github.com/tyrant/comfortable-mexican-sofa"
 
 group :development, :test do
-  gem "byebug",   "~> 10.0.0", platforms: %i[mri mingw x64_mingw]
-  gem "kaminari", "~> 1.1.1"
-  gem "puma",     "~> 3.12.2"
-  gem "rubocop",  "~> 0.55.0", require: false
-  gem "sqlite3",  "~> 1.4.2"
+  gem "debug", platforms: %i[mri mingw x64_mingw]
+  gem "kaminari", "~> 1.2"
+  gem "puma", "~> 6.0"
+  gem "rubocop", "~> 1.60", require: false
+  gem "sqlite3", "~> 2.0"
 end
 
 group :development do
-  gem "listen",       "~> 3.1.5"
-  gem "web-console",  "~> 3.5.1"
+  gem "listen", "~> 3.9"
+  gem "web-console", "~> 4.2"
 end
 
 group :test do
-  gem "coveralls",                "~> 0.8.21", require: false
-  gem "mocha",                    "~> 1.3.0", require: false
-  gem "rails-controller-testing", "~> 1.0.2"
+  gem "coveralls", "~> 0.8", require: false
+  gem "mocha", "~> 2.0", require: false
+  gem "rails-controller-testing", "~> 1.0"
 end

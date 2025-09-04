@@ -60,7 +60,7 @@ class Comfy::Admin::Blog::PostsControllerTest < ActionDispatch::IntegrationTest
       r :post, comfy_admin_blog_posts_path(@site), params: { post: {
         title:        "Test Post",
         slug:         "test-post",
-        published_at: 2.days.ago.to_s(:db),
+        published_at: 2.days.ago.strftime("%Y-%m-%d %H:%M:%S"),
         is_published: "1",
         layout_id:    @layout,
         fragments_attributes: [

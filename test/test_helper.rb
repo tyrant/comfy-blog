@@ -33,9 +33,10 @@ class ActiveSupport::TestCase
   # Example usage:
   #   assert_has_errors_on @record, :field_1, :field_2
   def assert_errors_on(record, *fields)
-    unmatched = record.errors.keys - fields.flatten
+    error_keys = record.errors.attribute_names
+    unmatched = error_keys - fields.flatten
     assert unmatched.blank?, "#{record.class} has errors on '#{unmatched.join(', ')}'"
-    unmatched = fields.flatten - record.errors.keys
+    unmatched = fields.flatten - error_keys
     assert unmatched.blank?, "#{record.class} doesn't have errors on '#{unmatched.join(', ')}'"
   end
 
@@ -79,8 +80,13 @@ class ActionDispatch::IntegrationTest
       ComfortableMexicanSofa::AccessControl::AdminAuthentication.username,
       ComfortableMexicanSofa::AccessControl::AdminAuthentication.password
     )
-    options[:headers] = headers
-    send(method, path, options)
+    
+    # Rails 8 integration test API expects params and headers as separate keyword arguments
+    if options[:params]
+      send(method, path, params: options[:params], headers: headers)
+    else
+      send(method, path, headers: headers)
+    end
   end
 
 end
