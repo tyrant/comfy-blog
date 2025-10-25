@@ -102,4 +102,17 @@ class BlogPostsTest < ActiveSupport::TestCase
     assert_equal "//test.host/test-blog/2012/1/default-title", @post.url
   end
 
+  def test_content_cache_with_raw_html
+    # Test that pre-existing raw HTML strings are handled correctly
+    raw_html = "<p>This is raw HTML content</p>"
+    @post.update_column(:content_cache, raw_html)
+    assert_equal raw_html, @post.content_cache
+  end
+
+  def test_content_cache_with_nil
+    # Test that nil values are handled correctly
+    @post.update_column(:content_cache, nil)
+    assert_nil @post.content_cache
+  end
+
 end
