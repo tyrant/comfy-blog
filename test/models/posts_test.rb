@@ -109,6 +109,13 @@ class BlogPostsTest < ActiveSupport::TestCase
     assert_equal raw_html, @post.content_cache
   end
 
+  def test_content_cache_with_yaml_serialized_content
+    # Test that YAML-serialized content is deserialized
+    yaml_content = "---\n<div>YAML serialized HTML</div>\n"
+    @post.update_column(:content_cache, yaml_content)
+    assert_equal "<div>YAML serialized HTML</div>", @post.content_cache
+  end
+
   def test_content_cache_with_nil
     # Test that nil values are handled correctly
     @post.update_column(:content_cache, nil)

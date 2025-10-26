@@ -41,15 +41,12 @@ class Comfy::Blog::Post < ActiveRecord::Base
   # This wrapper ensures compatibility with pre-existing raw HTML content.
   def content_cache
     raw_value = read_attribute(:content_cache)
-    return nil if raw_value.nil?
-    return raw_value if raw_value.is_a?(String)
 
-    # If it's already deserialized (e.g., from YAML), return as-is
+    if raw_value.is_a?(String) && raw_value.start_with?("---")
+      raw_value = YAML.safe_load(raw_value) rescue raw_value
+    end
+
     raw_value
-  rescue => e
-    # Fallback to raw value if deserialization fails
-    Rails.logger.warn("content_cache deserialization failed for Post #{id}: #{e.message}")
-    read_attribute(:content_cache)
   end
 
 protected
