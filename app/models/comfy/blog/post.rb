@@ -37,18 +37,6 @@ class Comfy::Blog::Post < ActiveRecord::Base
     [site.url(relative: relative), post_path].join
   end
 
-  # Rails 6->8 upgrade changed serialization from raw strings to YAML.
-  # This wrapper ensures compatibility with pre-existing raw HTML content.
-  def content_cache
-    raw_value = read_attribute(:content_cache)
-
-    if raw_value.is_a?(String) && raw_value.start_with?("---")
-      raw_value = YAML.safe_load(raw_value) rescue raw_value
-    end
-
-    raw_value
-  end
-
 protected
 
   def set_slug
